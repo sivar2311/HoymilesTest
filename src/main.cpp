@@ -1,5 +1,8 @@
 #include <Arduino.h>
 #include <Hoymiles.h>
+#include <time.h>
+#include <WiFi.h>
+#include "config.h"
 
 uint64_t inv_serial = 0x114181014156UL;
 uint64_t dtu_serial = 0x99978563412UL;
@@ -50,8 +53,24 @@ void printStats() {
     Serial.println();
 }
 
+void setupWiFi() {
+    WiFi.begin(WIFI_SSID, WIFI_PASS);
+    while (WiFi.status() != WL_CONNECTED) {
+        Serial.printf(".");
+        delay(100);
+    }
+}
+
+void setupNTP() {
+    configTime(0, 0, NTP_SERVER);
+    setenv("TZ", TIME_ZONE, 1);
+    tzset();    
+}
+
 void setup() {
     Serial.begin(115200);
+    setupWiFi();
+    setupNTP();
     setupHoymiles();
     setupInverter();
 }
