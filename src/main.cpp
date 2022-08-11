@@ -4,9 +4,6 @@
 #include <WiFi.h>
 #include "config.h"
 
-uint64_t inv_serial = 0x114181014156UL;
-uint64_t dtu_serial = 0x99978563412UL;
-
 void setupHoymiles() {
     Hoymiles.init();
     Hoymiles.getRadio()->setPALevel(RF24_PA_MAX);
